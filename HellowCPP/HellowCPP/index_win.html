@@ -1,0 +1,583 @@
+﻿<!DOCTYPE html>
+<html>
+<!--
+Copyright (c) 2012 The Chromium Authors. All rights reserved.
+Use of this source code is governed by a BSD-style license that can be
+found in the LICENSE file.
+-->
+<head>
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="-1">
+    <title>MapEngineES</title>
+    <script type="text/javascript" src="common.js"></script>
+</head>
+<body onload="">
+    <h1>
+        MapEngineES</h1>
+    <h2>
+        Status: <code id="statusField">NO-STATUS</code></h2>
+    <!-- The NaCl plugin will be embedded inside the element with id "listener".
+      See common.js.-->
+    <div id="listener" style="opacity: 1; position: absolute; top: 400px; left: 10px;
+        width: 200px; z-index: 0;">
+    </div>
+    <button id="openmap" onclick="OpenMap()">
+        打开地图</button>
+    <button id="Moveleft" onclick="Move(1)">
+        左移</button>
+    <button id="Button1" onclick="Move(2)">
+        右移</button>
+    <button id="Button2" onclick="Move(3)">
+        上移</button>
+    <button id="Button3" onclick="Move(4)">
+        下移</button>
+    <button id="Switch" onclick="SwitchMap()">
+        切换8位png地图</button>
+    <button id="Arcgis" onclick="SwitchArcGisMap()">
+        切换arcgis地图</button>
+    <button id="arcserver" onclick="SwitchArcServerMap()">
+        切换arcserver地图</button>
+    <button id="Button4" onclick="SwitchDeegreeMap()">
+        切换DegreeServer地图</button>
+    <button id="SwitchArcCompactMap" onclick="SwitchArcCompactMap()">
+        切换ArcGisCompact地图</button>
+    <button id="Button10" onclick="PIGISMap()">
+        PIGIS</button>
+    <button id="Button6" onclick="Move(5)">
+        地图跳转(平移)</button>
+    <br />
+    <!-- 1.注册点样式后,2添加该图层,3需要调用CRELREFRESH进行刷新-->
+    <button id="RegMarkerStyle" onclick="RegMarkerstyle()">
+        注册点样式</button>
+    <button id="AddShapefileLayer" onclick="AddshapefilePointLayer()">
+        添加图标层</button>
+    <button id="HIDE" onclick="HideLayer()">
+        隐藏层</button>
+    <button id="SHOW" onclick="ShowLayer()">
+        显示层</button>
+    <button id="Button8" onclick="DeleteLayer()">
+        删除层</button>
+    <!-- 1.注册线样式后,2添加该图层,3调用CRELREFRESH进行刷新-->
+    <button id="RegLineStyle" onclick="RegLineStyle()">
+        注册线样式</button>
+    <button id="AddshapefileLineLayer" onclick="AddshapefileLineLayer()">
+        添加线层</button>
+    <!-- 1.注册面样式后,2添加该图层,3调用CRELREFRESH进行刷新-->
+    <button id="RegPolygonStyle" onclick="RegPolygonStyle()">
+        注册面样式</button>
+    <button id="AddPolygonLayer" onclick="AddPolygonLayer()">
+        添加面层</button>
+    <br />
+    <!-- 1.注册点面样式后,2添加动态图层,3往该动态图层添加element，调用CRELREFRESH进行刷新-->
+    <button id="ADDDYNAMICLAYER" onclick="AddDynamicLayer()">
+        添加GPS层(动态层)</button>
+    <button id="AddGPS" onclick="AddeleonDyLayer()">
+        添加GPS点</button>
+    <!-- <button id="ADDDYNAMICLAYER" onclick="common.AddGPSLayer">添加GPS层</button>-->
+    <!-- 1.修改动态层中各个element的坐标等属性,调用CRELREFRESH进行刷新-->
+    <!--     MODYFYELEMENT,图层句柄,要素类型,要素id，样式id,x,y,angle,w,h,指令的序号 -->
+    <button id="ModifyGPS" onclick="ModifyGPS()">
+        GPS更新</button>
+    <button id="Addelelayer" onclick="AddElementLayer()">
+        添加要素层</button>
+    <button id="AddCircle" onclick="AddCircle()">
+        画圆</button>
+    <button id="AddCirque" onclick="AddCirque()">
+        画圆环</button>
+    <button id="AddLINE" onclick="AddLine()">
+        画线</button>
+    <button id="AddPoint" onclick="AddPoints()">
+        画点</button>
+    <button id="Button5" onclick="ShowDeegreeShp()">
+        DeegreeWFS</button>
+    <button id="REFLESHYNAMICLAYER" onclick="Refresh()">
+        刷新</button>
+    <br />
+    <button id="CHOOSEOPERATOR" onclick="ChooseOperator()">
+        选择操作</button>
+    <button id="PANOPERATOR" onclick="PanOperator()">
+        平移操作</button>
+    <button id="CHANGECURSORSTYLE" onclick="ChangeCursorStyle()">
+        改变鼠标样式</button>
+    <button id="Pen" onclick="Pen()">
+        自由绘笔</button>
+    <button id="ClearPenMark" onclick="ClearPenMark()">
+        清空绘笔</button>
+    <button id="CancelPen" onclick="CancelPen()">
+        取消绘笔</button>
+    <button id="AddCase" onclick="AddBurstCase()">
+        返回坐标信息点</button>
+    <br />
+    <button id="GPSBEGIN" onclick="GPSCMDbegin()">
+        启动GPS</button>
+    <button id="GPSEND" onclick="GPSCMDend()">
+        取消GPS</button>
+    <button id="GETHOTINFO" onclick="GetHotInfo()">
+        根据FID获取热点信息</button>
+    <button id="vPolygonChoose" onclick="vPolygonChoose()">
+        面选</button>
+    <button onclick="ReadShapfile()">
+        读取</button>
+    <button onclick="GISIDLocation()">
+        定位</button>
+    <button id="PointBuffer" onclick="PointBuffer()">
+        点缓冲</button>
+    <button id="CircleRingBuffer" onclick="CircleRingBuffer()">
+        环缓冲</button>
+    <button id="LineBuffer" onclick="LineBuffer()">
+        线缓冲</button>
+    <button id="PolygonBuffer" onclick="PolygonBuffer()">
+        面缓冲</button>
+    <button id="ClearBuffer" onclick="ClearBuffer()">
+        清空缓冲</button>
+    <button id="Button7" onclick="VideoBuffer()">
+        视频缓冲</button>
+    <br />
+    <button onclick="LuKuangBegin()">
+        启动路况</button>
+    <button onclick="LuKuangEnd()">
+        关闭路况
+    </button>
+    <button onclick="ShowManyShapefile()">
+        显示多个热点文件</button>
+    <button id="Button9" onclick="AddGIF()">
+        添加gif</button>
+    <button onclick="DeleteGIF()">
+        删除gif</button>
+    <button onclick="AddVideoDraw()">
+        增加视频点图标绘制</button>
+    <button onclick="ClearVideoDraw()">
+        清除视频点图标绘制</button>
+    <button onclick="GPSQuery()">
+        GPS位置查询</button>
+    <br />
+    <button onclick="GPSGIFADD()">
+        GPS上添加GIF</button>
+    <button onclick="GPSGIFDELETE()">
+        GPS上删除GIF</button>
+    <button onclick="CeShi()">
+        测试部分</button>
+    <script type="text/javascript">
+      common.onload('MapEngineES', 'win', 1920, 1080);
+      function ShowDeegreeShp() {
+        str = '{"CmdName":"ADDWFSPOINTLAYER","LayerName":"qhdzfjg","PointFileURL":"http://10.1.50.131:8080/services/wfs?service=WFS&request=GetFeature&version=1.1.0&TypeName=topp:qhdzfjg","Markerid":1,"Width":32,"Height":32,"Cmdid":4}';
+        common.SendMessage(str);
+      }
+
+      //common1.onload('MapEngineES1', 'win', 5000, 3000);
+      function OpeTheMap(mapurl, mapName, cenx, ceny, js, MapType, Format, clearup)
+      {
+			var str = '{"CmdName":"OPEN","ClearUp":' + clearup + ',"MapName":"' + mapName + '","CenX":'+ cenx +',"CenY":' + ceny + ',"Level":'+ js + ',"URL":"' 
+				+ mapurl + '","MapType":"' + MapType + '","Format":"' + Format + '","Cmdid":' + 1 + '}';			
+			common.SendMessage(str);
+
+            str = '{"CmdName":"CRTLREFRESH","Cmdid":0}'
+            common.SendMessage(str);
+      }
+
+      var cenx = 25000;
+      var ceny = -11000;
+      var js = 0;
+      var offsetX = 100;
+      var offsetY = 100;
+      function GPSGIFADD() {
+            var theGpsID = 8284500;
+            for(var i = 0; i < 48; i++)
+            {
+                theGpsID = theGpsID + 1;
+                debugger;
+                str = '{"CmdName":"CHANGEPICTOGIF","STATE":"ADD","LayerHandle":0,"GPSID":"' + theGpsID + '","URL":"C:/SmartCity/ICON/GIF/GIFHOTLAYER.gif","Width":80,"Height":80,"Cmdid":58}';
+                common.SendMessage(str);
+            }
+      }
+      function GPSGIFDELETE() {
+            var theGpsID = 8284500;
+            for(var i = 0; i < 48; i++)
+            {
+                theGpsID = theGpsID + 1;
+                str = '{"CmdName":"CHANGEPICTOGIF","STATE":"DELETE","LayerHandle":0,"GPSID":"' + theGpsID + '","Cmdid":58}';
+                common.SendMessage(str);
+            }
+            
+      }
+      function CeShi() {
+            str = '{"CmdName":"CHANGEPICTOGIF","STATE":"ADD","LayerHandle":0,"GPSID":"8284509","URL":"http://localhost:8080/vfs/gif/GPS/jingche.gif","Width":80,"Height":80,"Cmdid":58}';
+            common.SendMessage(str);
+//        str = '{"CmdName":"GISIDTOFID","LayerHandle":1,"GISID":[9,15,27]}';
+//        common.SendMessage(str);
+//        str = '{"CmdName":"BUFFER","Type":"POINT","X":120.143928,"Y":30.293561,"DISTANCE":800,"UNIT":"metre","ColorR":200,"ColorG":150,"ColorB":0,"ColorA":150,"Cmdid":58}';
+//		common.SendMessage(str);
+//        str = '{"CmdName":"GIFCMD","OPERATOR":"ADD","STATE":"FALSE","TIME":3000,"X":120.143928,"Y":30.293561,"URL":"http://10.1.50.50:8080/vfs/gif/dw_anjian.gif","Width":80,"Height":80,"Cmdid":58}';
+//		common.SendMessage(str);
+      }
+      function GPSQuery() {
+        str = '{"CmdName":"GPSQUERY","GPSID":["8284500","8284501","123"],"Cmdid":79}';
+        common.SendMessage(str);
+      }
+      function GISIDLocation() {
+        str = '{"CmdName":"FIDLOCATION","Layerhandle":1,"FID":9,"Cmdid":78}';
+        common.SendMessage(str);
+      }
+      function ShowManyShapefile(){
+          str = '{"CmdName":"REGMARKERSTYLE","PicURL":"D:/副本/map2dtest/data/1.png","Cmdid":3}'
+          common.SendMessage(str);
+          console.log(str)
+           str = '{"CmdName":"ADDMARKERPOINTLAYER","PointFileURL":"C:/SmartCity/MAP/SHAPEFILE/Video.shp","Markerid":0,"Width":32,"Height":32,"Cmdid":4}';
+          common.SendMessage(str);
+          console.log(str)
+          str = '{"CmdName":"REGMARKERSTYLE","PicURL":"D:/副本/map2dtest/data/3.png","Cmdid":3}'
+          common.SendMessage(str);
+          console.log(str)
+           str = '{"CmdName":"ADDMARKERPOINTLAYER","PointFileURL":"C:/SmartCity/MAP/SHAPEFILE/公安.shp","Markerid":1,"Width":32,"Height":32,"Cmdid":4}';
+          common.SendMessage(str);
+          console.log(str)
+      }
+      function AddVideoDraw() {
+        str = '{"CmdName":"VIDEODRAW","STATE":"TRUE","LayerHandle":1,"Height":144,"Width":48,"INFO":[{"FID":101,"URL":"C:/SmartCity/ICON/VIDEOTIP/1.png"},{"FID":102,"URL":"C:/SmartCity/ICON/VIDEOTIP/2.png"}],"Cmdid":3}';
+        common.SendMessage(str);
+      }
+      function ClearVideoDraw() {
+        str = '{"CmdName":"VIDEODRAW","STATE":"FALSE","LayerHandle":2,"Cmdid":3}';
+        common.SendMessage(str);
+      }
+      function LuKuangBegin() {
+         var str = '{"CmdName":"LUKUANGCMD","URL":"C:\\\\SmartCity\\\\CONF\\\\MapEngineES.ini","STATE":"TRUE","Cmdid":78}';
+     common.SendMessage(str);
+      }
+      function LuKuangEnd() {
+           var str = '{"CmdName":"LUKUANGCMD","STATE":"FALSE","Cmdid":78}';
+        common.SendMessage(str);
+      }
+      function ReadShapfile() {
+        str = '{"CmdName":"READSHAPE","URL":"C:/SmartCity/MAP/SHAPEFILE/区划注记.shp","Cmdid":21}';
+         common.SendMessage(str);
+      }
+      function vPolygonChoose() {
+            str = '{"CmdName":"OPERATORCHANGE","OPERATOR":"POLYGONCHOOSE","Cmdid":21}';
+        common.SendMessage(str);
+      }
+      function AddBurstCase(){
+         str = '{"CmdName":"OPERATORCHANGE","OPERATOR":"GETPOSTION","Cmdid":22}';
+		      common.SendMessage(str);
+      }
+      function GetHotInfo() {
+        str = '{"CmdName":"GETHOTINFO","LayerLocation":1,"FID":100,"Cmdid":24}';
+        common.SendMessage(str);
+      }
+      function GPSCMDbegin() {
+        str = '{"CmdName":"GPSCMD","STATE":"TRUE","URL":"C:\\\\SmartCity\\\\CONF\\\\MapEngineES.ini","Angle":180,"Width":32,"Height":32,"Cmdid":23}';
+        common.SendMessage(str);
+      }
+      function GPSCMDend() {
+        str = '{"CmdName":"GPSCMD","STATE":"FALSE","Cmdid":24}';
+        common.SendMessage(str);
+      }
+      function ChangeCursorStyle() {
+        str = '{"CmdName":"CHANGECURSORSTYLE","URL":"' + "d:\\\\map2d\\\\2.png" + '", "Cmdid":20}';
+		common.SendMessage(str);
+      }
+      function PanOperator() {
+         str = '{"CmdName":"OPERATORCHANGE","OPERATOR":"PAN","Cmdid":21}';
+		 common.SendMessage(str);
+      }
+      function ChooseOperator() {
+         str = '{"CmdName":"OPERATORCHANGE","OPERATOR":"CHOOSE","Cmdid":22}';
+		 common.SendMessage(str);
+      }
+      function Refresh() {
+          str = '{"CmdName":"CRTLREFRESH","Cmdid":0}'
+          common.SendMessage(str);
+          console.log(str)
+      }
+
+      function OpenMap() {
+          var str = '{"CmdName":"OPEN","MapName":"HZSL","CenX":'+120.15+',"CenY":'+ 30.3 +',"Level":'+0+',"URL":"I:/Cache/HZSL/HZSL","MapType":"VtronMap","Format":"png","Cmdid":1}'     
+          common.SendMessage(str);
+          console.log(str)
+      }
+
+      function Move(type) {
+          switch(type)
+          {
+            case 1:
+            str = '{"CmdName":"MOVEVIEW","Coortype":"PIX","OffsetX":'+offsetX+',"OffsetY":0,"Level":'+js+',"Cmdid":2}';
+            break;
+
+            case 2:
+            str = '{"CmdName":"MOVEVIEW","Coortype":"PIX","OffsetX":-'+offsetX+',"OffsetY":0,"Level":'+js+',"Cmdid":2}';
+            break;
+
+            case 3:
+            str = '{"CmdName":"MOVEVIEW","Coortype":"PIX","OffsetX":0,"OffsetY":'+offsetY+',"Level":'+js+',"Cmdid":2}';
+            break;
+
+            case 4:
+            str = '{"CmdName":"MOVEVIEW","Coortype":"PIX","OffsetX":0,"OffsetY":-'+offsetY+',"Level":'+js+',"Cmdid":2}';
+            break;
+
+            case 5:
+            str = '{"CmdName":"MOVEVIEW","Coortype":"GEO","CenX":120.15,"CenY":30.3,"Level":'+js+',"Cmdid":2}';
+            break;
+          }
+          //str = '{"CmdName":"MOVEVIEW","Coortype":"GEO","CenX":26000,"CenY":-12000,"Level":'+js+',"Cmdid":2}';
+          common.SendMessage(str);
+          console.log(str);
+          str = '{"CmdName":"CRTLREFRESH","Cmdid":0}'
+          common.SendMessage(str);
+      }
+
+      function RegMarkerstyle() {
+          str = '{"CmdName":"REGMARKERSTYLE","PicURL":"C:/SmartCity/ICON/GPS/shipin.png","Cmdid":3}'
+          common.SendMessage(str);
+          console.log(str)
+      }
+
+      function AddshapefilePointLayer() {
+          str = '{"CmdName":"ADDMARKERPOINTLAYER","PointFileURL":"C:/SmartCity/MAP/SHAPEFILE/Video.shp","Markerid":1,"Width":32,"Height":32,"Cmdid":4}';
+          common.SendMessage(str);
+          console.log(str)
+      }
+
+      function HideLayer() {
+          str = '{"CmdName":"HIDELAYER","Layerid":1,"Cmdid":5}'
+          common.SendMessage(str);
+
+          console.log(str)
+      }
+
+      function ShowLayer() {
+          str = '{"CmdName":"SHOWLAYER","Layerid":1,"Cmdid":6}'
+          common.SendMessage(str);
+          console.log(str)
+      }
+
+      function DeleteLayer() {
+          str = '{"CmdName":"DELETELAYER","Layerid":1,"Cmdid":7}'
+          common.SendMessage(str);
+          console.log(str)
+      }
+
+      <!-- 注册线样式 -->
+      function RegLineStyle() {
+          str = '{"CmdName":"REGLINESTYLE","LineWidth":1,"ColorR":180,"ColorG":100,"ColorB":100,"ColorA":200,"Cmdid":8}'
+          common.SendMessage(str);
+          console.log(str)
+      }
+
+      <!-- 添加线层-->
+      function AddshapefileLineLayer() {
+          str = '{"CmdName":"ADDLINELAYER","LineFileURL":"d:\\\\map2d\\\\data\\\\Line.shp","LineStyleid":1,"Cmdid":9}'
+          common.SendMessage(str);
+          console.log(str)
+      }
+
+      <!-- 注册面样式 -->
+      function RegPolygonStyle() {
+          str = '{"CmdName":"REGPOLYGONSTYLE","ColorR":100,"ColorG":150,"ColorB":200,"ColorA":150,"RingLineStyle":1,"Cmdid":10}'
+          common.SendMessage(str);
+          console.log(str)
+      }
+
+     <!-- 添加面层-->
+      function AddPolygonLayer() {
+          str = '{"CmdName":"ADDPOLYGONLAYER","PolygonFileURL":"d:\\\\map2d\\\\data\\\\路况.shp","PolygonStyleid":2,"Cmdid":11}'
+          common.SendMessage(str);
+          console.log(str)
+      }
+
+       <!-- 添加GPS动态层-->
+      function AddDynamicLayer() {
+          str = '{"CmdName":"ADDDYNAMICLAYER","Cmdid":12}'
+          common.SendMessage(str);
+          console.log(str)
+      }
+
+       <!-- 在层中添加GPS点要素-->
+      function AddeleonDyLayer() {
+          str = '{"CmdName":"ADDELEMENT","ElementType":"POINT","Styleid":0,"Layerid":1,"X":25000,"Y":-11000,"Angle":30,"Width":32,"Height":32,"Cmdid":13}'
+          common.SendMessage(str);
+          console.log(str)
+      }
+
+       <!-- 在层中修改GPS点要素-->
+      function ModifyGPS() {
+          str = '{"CmdName":"MODIFYELEMENT","Layerid":1,"ElementType":"POINT","Elementid":0,"X":25300,"Y":-11000,"Angle":30,"Width":32,"Height":32,"Cmdid":14}'
+          common.SendMessage(str);
+          console.log(str)
+      }
+
+       <!-- 添加要素层-->
+      function AddElementLayer() {
+          str = '{"CmdName":"ADDELELAYER","Cmdid":15}'
+          common.SendMessage(str);
+          console.log(str)
+      }
+
+       <!-- 在要素层中添加圆要素-->
+      function AddCircle() {
+             str = '{"CmdName":"ADDELEMENT","ElementType":"CIRCLE","Layerid":1,"X":25000,"Y":-11000,"Radius":1000,"ColorR":200,"ColorG":100,"ColorB":100,"ColorA":100,"Cmdid":16}'
+          common.SendMessage(str);
+          console.log(str)
+      }
+
+        <!-- 在要素层中添加线要素-->
+      function AddLine() {
+             str = '{"CmdName":"ADDELEMENT","ElementType":"LINE","Layerid":1,"X0":25000,"Y0":-11000,"X1":25200,"Y1":-11000,"Width":5,"ColorR":250,"ColorG":150,"ColorB":50,"ColorA":150,"Cmdid":17}'
+          common.SendMessage(str);
+          console.log(str)
+      }
+
+      <!-- 在要素层中添加点要素-->
+      function AddPoints() {
+             str = '{"CmdName":"ADDELEMENT","ElementType":"SHAPEPOINT","Layerid":1,"X":25000,"Y":-11000,"POINTSIZE":5,"ColorR":250,"ColorG":150,"ColorB":50,"ColorA":150,"Cmdid":18}'
+          common.SendMessage(str);
+          console.log(str)
+      }
+
+       <!-- 在要素层中添加圆环要素-->
+      function AddCirque() {
+             str = '{"CmdName":"ADDELEMENT","ElementType":"CIRQUE","Layerid":1,"X":25000,"Y":-11000,"Radius1":1000,"Radius2":1500,"ColorR":250,"ColorG":150,"ColorB":50,"ColorA":150,"Cmdid":18}'
+            common.SendMessage(str);
+            console.log(str)
+      }
+
+      <!--切换地图-->
+      function SwitchMap() {
+          str = '{"CmdName":"OPEN","MapName":"hzmapsl","CenX":120.1,"CenY":30.2,"Level":1,"URL":"D:\\\\map2d\\\\hzmapsl","MapType":"VtronMap","Format":"png","Cmdid":19}'
+          common.SendMessage(str);
+          console.log(str)
+      }
+
+       function SwitchArcGisMap() {
+            var mapurl = "D:/MyCoding/DataStore/mapdata/HZYX";
+			var mapName = "HZYX";
+			var cenx = 120.14073;
+			var ceny = 30.24095;
+			var js = 5;
+			var MapType = "ArcGisMap";
+			var Format = "jpg";	
+			var clearup = false;
+            OpeTheMap(mapurl, mapName, cenx, ceny, js, MapType, Format, clearup);
+      }
+      
+      function PIGISMap() {
+            var mapurl = "http://10.1.50.58:8080/EzServer6/Maps/hzmap";// /EzMap?Service=getImage&Type=RGB&ZoomOffset=16&Col=15374&Row=3872&Zoom=0&V=0.3";
+			var mapName = "hzmap";
+			var cenx = 120.14073;
+			var ceny = 30.24095;
+			var js = 16;
+			var MapType = "PGISMap";
+			var Format = "jpg";	
+			var clearup = false;
+            OpeTheMap(mapurl, mapName, cenx, ceny, js, MapType, Format, clearup);
+      }
+      
+       function SwitchArcServerMap() {
+            var mapurl = "http://10.1.55.172:6080/ArcGIS/rest/services/hangzhou1022/MapServer";//?Service=getImage&Type=RGB&ZoomOffset=16&Col=15374&Row=3872&Zoom=0&V=0.3";
+			var mapName = "hangzhou1022";
+			var cenx = 120.14073;
+			var ceny = 30.24095;
+			var js = 5;
+			var MapType = "ArcServerMap";
+			var Format = "jpg";	
+			var clearup = false;
+            OpeTheMap(mapurl, mapName, cenx, ceny, js, MapType, Format, clearup);
+      }
+
+
+      function SwitchDeegreeMap() {
+            var mapurl = "http://10.1.50.131:8080/services";
+			var mapName = "hzyx";
+			var cenx = 120.14073;
+			var ceny = 30.24095;
+			var js = 1;
+			var MapType = "DeegreeMap";
+			var Format = "jpg";	
+			var clearup = false;
+            OpeTheMap(mapurl, mapName, cenx, ceny, js, MapType, Format, clearup);
+      }
+
+      function SwitchArcCompactMap() {
+        str = '{"CmdName":"OPEN","ClearUp":false,"MapName":"HZYX","CenX":120.14073,"CenY":30.24095,"Level":2,"URL":"c:\\\\SmartCity\\\\MAP\\\\HZYX","MapType":"ArcGisCompactMap","Format":"jpg","Cmdid":19}'
+          common.SendMessage(str);
+          console.log(str)
+      }
+
+      
+
+      <!-- 自由绘笔-->
+        function Pen() {
+        str = '{"CmdName":"OPERATORCHANGE","OPERATOR":"DRAW","Width":10,"ColorR":255,"ColorG":0,"ColorB":0,"ColorA":255,"Cmdid":39}'
+          common.SendMessage(str);
+          console.log(str)
+      }
+
+         <!-- 清空自由绘笔-->
+        function ClearPenMark() {
+        str = '{"CmdName":"OPERATORCHANGE","OPERATOR":"CLEAR","Cmdid":39}'
+          common.SendMessage(str);
+          console.log(str)
+      }
+
+      <!--取消自由绘笔-->
+       function CancelPen() {
+        str = '{"CmdName":"OPERATORCHANGE","OPERATOR":"CANCLE","Cmdid":40}'
+          common.SendMessage(str);
+          console.log(str)
+      }
+
+      <!--点缓冲--〉
+      function PointBuffer() {
+         str = '{"CmdName":"BUFFER","Type":"POINT","X":120.143928,"Y":30.293561,"DISTANCE":350,"UNIT":"metre","ColorR":200,"ColorG":150,"ColorB":0,"ColorA":150,"Cmdid":58}';
+		 common.SendMessage(str);
+      }
+
+
+
+
+
+       <!--圆环缓冲-->
+       function CircleRingBuffer() {
+         str = '{"CmdName":"BUFFER","Type":"RING","X":120.105583,"Y":30.236549 ,"DISTANCE1":350,"DISTANCE2":700,"UNIT":"metre","ColorR":250,"ColorG":150,"ColorB":50,"ColorA":150,"Cmdid":68}';
+		 common.SendMessage(str);
+      }
+
+       <!--线缓冲-->
+       function LineBuffer() {
+         str = '{"CmdName":"BUFFER","Type":"LINE","X":[120.130725,120.130308,120.135127,120.136435,120.136554,120.142682],"Y":[30.28526,30.29032,30.290796,30.289011,30.285799,30.285858],"DISTANCE":200,"UNIT":"metre","ColorR":250,"ColorG":150,"ColorB":50,"ColorA":200,"Cmdid":78}';
+		 common.SendMessage(str);
+      }
+
+
+        <!--清空缓冲-->
+       function ClearBuffer() {
+         str = '{"CmdName":"BUFFER","Type":"CLEAR","Cmdid":78}';
+		 common.SendMessage(str);
+      }
+
+       <!--视频缓冲--〉
+      function VideoBuffer() {
+         str = '{"CmdName":"BUFFER","Type":"VEDIO","VIDEO":"TRUE","X":120.143928,"Y":30.293561,"DISTANCE":800,"UNIT":"metre","Cmdid":58}';
+         common.SendMessage(str);
+         str = '{"CmdName":"BUFFER","Type":"POINT","X":120.143928,"Y":30.293561,"DISTANCE":800,"UNIT":"metre","ColorR":200,"ColorG":150,"ColorB":0,"ColorA":150,"Cmdid":58}';
+		 common.SendMessage(str);
+
+      }
+
+      <!-- -->
+      function AddGIF() {
+        str = '{"CmdName":"MOVEVIEW","Coortype":"GEO","CenX":120.15,"CenY":30.2,"Level":'+3+',"Cmdid":2}';
+          common.SendMessage(str);
+         str = '{"CmdName":"GIFCMD","OPERATOR":"ADD","STATE":"FALSE","TIME":3000,"X":120.15,"Y":30.2,"URL":"http://10.1.50.50:8080/vfs/gif/dw_anjian.gif","Width":800,"Height":800,"Cmdid":58}';
+		 common.SendMessage(str);
+      }
+      function DeleteGIF() {
+         str = '{"CmdName":"GIFCMD","OPERATOR":"DELETE","LayerHandle":1,"ElementHandle":1,"Cmdid":58}';
+		 common.SendMessage(str);
+      }
+    </script>
+    <div id="Div2" style="opacity: 1; position: absolute; top: 400px; left: 1110px; width: 200px;
+        z-index: 0;">
+    </div>
+</body>
+</html>

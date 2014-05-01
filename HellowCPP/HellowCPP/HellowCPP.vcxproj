@@ -1,0 +1,170 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|PPAPI">
+      <Configuration>Debug</Configuration>
+      <Platform>PPAPI</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|PPAPI">
+      <Configuration>Release</Configuration>
+      <Platform>PPAPI</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{BB6192F1-4A3E-4BE9-A243-C0A4DEDAC8E0}</ProjectGuid>
+    <RootNamespace>HellowCPP</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Debug|PPAPI'">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|PPAPI'">
+    <NaClAddInVersion>1</NaClAddInVersion>
+    <TargetName>$(ProjectName)</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|PPAPI'">
+    <NaClAddInVersion>1</NaClAddInVersion>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>./include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>json_vc71_libmtd.lib;tinyxml.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|PPAPI'">
+    <Link>
+      <AdditionalDependencies>ppapi_cpp.lib;ppapi.lib;ppapi_gles2.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;GdiPlus.lib;tinyxml.lib;json_vc71_libmtd.lib;gdal_i.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>.\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>/FORCE:MULTIPLE %(AdditionalOptions)</AdditionalOptions>
+    </Link>
+    <ClCompile>
+      <AdditionalIncludeDirectories>./include/gdal;./include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <WarningLevel>Level3</WarningLevel>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|PPAPI'">
+    <Link>
+      <AdditionalDependencies>ppapi_cpp.lib;ppapi.lib;ppapi_gles2.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;GdiPlus.lib;tinyxml.lib;json_vc71_libmt.lib;gdal_i.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>./lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>/FORCE:MULTIPLE %(AdditionalOptions)</AdditionalOptions>
+    </Link>
+    <ClCompile>
+      <AdditionalIncludeDirectories>./include;./include/gdal;./include/curl;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <None Include="common.js" />
+    <None Include="fragment_shader_es2.frag" />
+    <None Include="hello.raw" />
+    <None Include="index_win.html" />
+    <None Include="vertex_shader_es2.vert" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="ArcgisMapLayer.cpp" />
+    <ClCompile Include="BaseLayer.cpp" />
+    <ClCompile Include="CurlConnect.cpp" />
+    <ClCompile Include="DrawEngine.cpp" />
+    <ClCompile Include="EditLayer.cpp" />
+    <ClCompile Include="Element.cpp" />
+    <ClCompile Include="ElementLayer.cpp" />
+    <ClCompile Include="GetUrl.cpp" />
+    <ClCompile Include="hello_world_test.cc" />
+    <ClCompile Include="Layer.cpp" />
+    <ClCompile Include="LineElement.cpp" />
+    <ClCompile Include="Main.cpp" />
+    <ClCompile Include="MarkerElement.cpp" />
+    <ClCompile Include="MarkerLayer.cpp" />
+    <ClCompile Include="MarkerStyle.cpp" />
+    <ClCompile Include="matrix.cc" />
+    <ClCompile Include="mem_image.cpp" />
+    <ClCompile Include="ServerMapLayer.cpp" />
+    <ClCompile Include="ShapefileLayer.cpp" />
+    <ClCompile Include="Tile.cpp" />
+    <ClCompile Include="VtronMap.cpp" />
+    <ClCompile Include="WFSPointFeature.cpp" />
+    <ClCompile Include="WFSLayer.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="ArcgisMapLayer.h" />
+    <ClInclude Include="BaseLayer.h" />
+    <ClInclude Include="CurlConnect.h" />
+    <ClInclude Include="DataStruct.h" />
+    <ClInclude Include="DrawEngine.h" />
+    <ClInclude Include="EditLayer.h" />
+    <ClInclude Include="Element.h" />
+    <ClInclude Include="ElementLayer.h" />
+    <ClInclude Include="GetUrl.h" />
+    <ClInclude Include="hello_world_test.h" />
+    <ClInclude Include="Layer.h" />
+    <ClInclude Include="LineElement.h" />
+    <ClInclude Include="MarkerElement.h" />
+    <ClInclude Include="MarkerLayer.h" />
+    <ClInclude Include="MarkerStyle.h" />
+    <ClInclude Include="matrix.h" />
+    <ClInclude Include="mem_image.h" />
+    <ClInclude Include="ServerMapLayer.h" />
+    <ClInclude Include="ShapefileLayer.h" />
+    <ClInclude Include="stdafxppapi.h" />
+    <ClInclude Include="ShaderData.h" />
+    <ClInclude Include="stdafxcpp.h" />
+    <ClInclude Include="stdafxwin32.h" />
+    <ClInclude Include="Style.h" />
+    <ClInclude Include="Tile.h" />
+    <ClInclude Include="VtronMap.h" />
+    <ClInclude Include="WFSPointFeature.h" />
+    <ClInclude Include="WFSLayer.h" />
+    <ClInclude Include="XmlHelp.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

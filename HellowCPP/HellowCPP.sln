@@ -1,0 +1,24 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "HellowCPP", "HellowCPP\HellowCPP.vcxproj", "{BB6192F1-4A3E-4BE9-A243-C0A4DEDAC8E0}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|PPAPI = Debug|PPAPI
+		Debug|Win32 = Debug|Win32
+		Release|PPAPI = Release|PPAPI
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BB6192F1-4A3E-4BE9-A243-C0A4DEDAC8E0}.Debug|PPAPI.ActiveCfg = Debug|Win32
+		{BB6192F1-4A3E-4BE9-A243-C0A4DEDAC8E0}.Debug|Win32.ActiveCfg = Debug|Win32
+		{BB6192F1-4A3E-4BE9-A243-C0A4DEDAC8E0}.Debug|Win32.Build.0 = Debug|Win32
+		{BB6192F1-4A3E-4BE9-A243-C0A4DEDAC8E0}.Release|PPAPI.ActiveCfg = Release|Win32
+		{BB6192F1-4A3E-4BE9-A243-C0A4DEDAC8E0}.Release|Win32.ActiveCfg = Release|Win32
+		{BB6192F1-4A3E-4BE9-A243-C0A4DEDAC8E0}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
